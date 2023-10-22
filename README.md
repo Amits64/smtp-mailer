@@ -12,6 +12,7 @@ This is a simple SMTP mailer service for sending emails using Node.js and Expres
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
 - [Docker Support](#docker-support)
+- [Screenshots](#screenshots)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -84,6 +85,12 @@ Example Docker commands:
   ```bash
     docker run -itd -e DB_HOST=my-database-container -e DB_PORT=3306 -e DB_USER=admin -e DB_PASSWORD=Password1! -e SECRET_API_KEY=ad8fb3c8b78bee02ea05c05f64936cc9 -p 3000:3000 smtp-mailer
   ```
+
+# Screenshots
+![smtp-mailer-app](https://github.com/Amits64/smtp-mailer/assets/135766785/a054ff6e-e09b-4e61-b563-0dad61443b43)
+![grafana-dashboard](https://github.com/Amits64/smtp-mailer/assets/135766785/01f3d01a-8d09-494c-8aa7-59445e698fd8)
+![smtp-mailer-app-1](https://github.com/Amits64/smtp-mailer/assets/135766785/0eeddeca-5fa5-418a-8961-070096dba0d1)
+
 
 # Contributing
 
