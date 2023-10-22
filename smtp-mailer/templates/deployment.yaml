@@ -23,10 +23,10 @@ spec:
             - name: DB_HOST
               value: my-database-container
             - name: DB_PORT
-              value: 3306
+              value: "3306"
             - name: DB_USER
               value: admin
             - name: DB_PASSWORD
-              value: Password!
+              value: "Password!"
             - name: SECRET_API_KEY
               value: ad8fb3c8b78bee02ea05c05f64936cc9

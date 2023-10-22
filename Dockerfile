@@ -14,14 +14,13 @@ ENV SECRET_API_KEY=""
 # Create a directory for your app and set it as the working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the container
-COPY package*.json ./
+# Copy specific files and directories required for the image to run
+COPY package.json .
+COPY package-lock.json .
+COPY app.js .
 
 # Install app dependencies as the non-root user
 RUN npm install
-
-# Bundle app source
-COPY . .
 
 # Expose the port your app will run on
 EXPOSE 3000
@@ -31,4 +30,3 @@ USER nonroot
 
 # Define the command to run your Node.js application
 CMD ["node", "app.js"]
-
