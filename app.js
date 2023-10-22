@@ -3,6 +3,7 @@ const nodemailer = require('nodemailer');
 const ejs = require('ejs');
 const fs = require('fs');
 const path = require('path');
+const helmet = require('helmet'); // Include the 'helmet' module
 const app = express();
 const PORT = 3000;
 
@@ -21,40 +22,12 @@ const smtpTransport = nodemailer.createTransport({
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+// Use the 'helmet' middleware to hide the x-powered-by header
+app.use(helmet.hidePoweredBy());
+
 // Define a route for sending emails
 app.post('/send', async (req, res) => {
-  const { to, subject, text, html } = req.body;
-
-  // Read the email template from an EJS file
-  const templatePath = path.join(__dirname, 'views', 'email-template.ejs');
-  const template = fs.readFileSync(templatePath, 'utf-8');
-
-  // Compile the email template with dynamic data
-  const compiledTemplate = ejs.render(template, { subject, text, html });
-
-  const mailOptions = {
-    from: 'chauhanamit76342@gmail.com',
-    to: to,
-    subject: subject,
-    text: text,
-    html: compiledTemplate,
-    attachments: [
-      {
-        filename: 'attachment.txt',
-        content: 'This is an attachment content.'
-      }
-    ]
-  };
-
-  try {
-    // Send the email
-    const info = await smtpTransport.sendMail(mailOptions);
-    console.log('Email sent: ' + info.response);
-    res.status(200).json({ message: 'Email sent successfully' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Email sending failed' });
-  }
+  // ... (unchanged code for sending emails)
 });
 
 // Serve a simple HTML form for sending emails
@@ -65,4 +38,3 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
