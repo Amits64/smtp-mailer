@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: smtp-mailer
-          image: amits64/smtp-mailer:${tag}
+          image: amits64/smtp-mailer:latest
           ports:
             - containerPort: 3000
           env:
