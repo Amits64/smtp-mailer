@@ -2,14 +2,14 @@
 FROM node:14
 
 # Create a non-root user and group for running the application
-RUN addgroup -S nonroot && adduser -S nonroot -G nonroot
+RUN groupadd -g 1001 nonroot && useradd -u 1001 -g nonroot -m nonroot
 
-# Set environment variables for sensitive data
-ENV DB_HOST=my-database-container
-ENV DB_PORT=3306
-ENV DB_USER=admin
-ENV DB_PASSWORD=Password1!
-ENV SECRET_API_KEY=ad8fb3c8b78bee02ea05c05f64936cc9
+# Set environment variables for sensitive data to empty values
+ENV DB_HOST=""
+ENV DB_PORT=""
+ENV DB_USER=""
+ENV DB_PASSWORD=""
+ENV SECRET_API_KEY=""
 
 # Create a directory for your app and set it as the working directory
 WORKDIR /usr/src/app
