@@ -11,7 +11,6 @@ This is a simple SMTP mailer service for sending emails using Node.js and Expres
   - [Configuration](#configuration)
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
-- [Testing](#testing)
 - [Docker Support](#docker-support)
 - [Contributing](#contributing)
 - [License](#license)
