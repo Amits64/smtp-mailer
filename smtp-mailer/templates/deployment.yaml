@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smtp-mailer
+  labels:
+    app: smtp-mailer
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: smtp-mailer
+  template:
+    metadata:
+      labels:
+        app: smtp-mailer
+    spec:
+      containers:
+        - name: smtp-mailer
+          image: amits64/smtp-mailer:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_HOST
+              value: my-database-container
+            - name: DB_PORT
+              value: 3306
+            - name: DB_USER
+              value: admin
+            - name: DB_PASSWORD
+              value: Password!
+            - name: SECRET_API_KEY
+              value: ad8fb3c8b78bee02ea05c05f64936cc9
