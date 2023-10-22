@@ -22,8 +22,8 @@ This is a simple SMTP mailer service for sending emails using Node.js and Expres
 
 ## Prerequisites
 
-- Node.js (>=14.17.4)
-- npm (>=6.14.14)
+- Node.js
+- npm
 - SMTP server credentials (host, port, username, password)
 
 ## Getting Started
