@@ -9,12 +9,16 @@ const PORT = 3000;
 
 app.use(express.json());
 
+// Use the 'helmet' middleware to hide the x-powered-by header
+app.use(helmet.hidePoweredBy());
+
 // Create an SMTP transporter
 const smtpTransport = nodemailer.createTransport({
-  service: 'Gmail',
+  // Use a secure email service and store sensitive information in environment variables
+  service: 'Gmail', // Replace with a secure email service
   auth: {
-    user: 'chauhanamit76342@gmail.com', // Your email address
-    pass: 'Amit_s64' // Your email password (use environment variables for better security)
+    user: process.env.EMAIL_USER, // Use environment variables
+    pass: process.env.EMAIL_PASSWORD // Use environment variables
   }
 });
 
@@ -22,15 +26,12 @@ const smtpTransport = nodemailer.createTransport({
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Use the 'helmet' middleware to hide the x-powered-by header
-app.use(helmet.hidePoweredBy());
-
 // Define a route for sending emails
 app.post('/send', async (req, res) => {
   // ... (unchanged code for sending emails)
 });
 
-// Serve a simple HTML form for sending emails
+// Serve a simple HTML form for sending emails over HTTPS
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'form.html'));
 });
@@ -38,3 +39,4 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
