@@ -87,14 +87,13 @@ Example Docker commands:
   ```
 
 # Screenshots
+![image](https://github.com/Amits64/smtp-mailer/assets/135766785/aac0a78a-cd77-48a2-aee5-0aa86bc6520d)
 ![smtp-mailer-app](https://github.com/Amits64/smtp-mailer/assets/135766785/a054ff6e-e09b-4e61-b563-0dad61443b43)
 ![grafana-dashboard](https://github.com/Amits64/smtp-mailer/assets/135766785/01f3d01a-8d09-494c-8aa7-59445e698fd8)
 ![smtp-mailer-app-1](https://github.com/Amits64/smtp-mailer/assets/135766785/0eeddeca-5fa5-418a-8961-070096dba0d1)
 
-
 # Contributing
 
 Feel free to contribute to this project. Fork the repository, make your changes, and submit a pull request.
-
 
 Please replace placeholders like `yourusername`, `your-smtp-host`, and `your-smtp-username` with your actual information. This README covers basic sections, and you can add more details or sections as needed for your project.
