@@ -28,15 +28,15 @@ Gap Analysis:
 
 1. Security Bug Fix:
 
-	* Description: The hardcoded email password in the original script has been replaced with environment variables.
-	* Implementation: The email user and password are now loaded from environment variables.
-	* Result: Sensitive information is now stored securely.
+* Description: The hardcoded email password in the original script has been replaced with environment variables.
+* Implementation: The email user and password are now loaded from environment variables.
+* Result: Sensitive information is now stored securely.
 
-# Middleware Order Fix:
+2. Middleware Order Fix:
 
-	* Description: In the original script, the 'helmet' middleware was placed before defining the route for sending emails. In the fixed script, the 'helmet.hidePoweredBy()' middleware is applied after defining the email-sending route.
-	* Implementation: The 'helmet.hidePoweredBy()' middleware is now applied in the correct order.
-	* Result: Middleware order has been corrected.
+* Description: In the original script, the 'helmet' middleware was placed before defining the route for sending emails. In the fixed script, the 'helmet.hidePoweredBy()' middleware is applied after defining the email-sending route.
+* Implementation: The 'helmet.hidePoweredBy()' middleware is now applied in the correct order.
+* Result: Middleware order has been corrected.
 
 # Conclusion:
 
