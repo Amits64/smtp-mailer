@@ -6,7 +6,7 @@ const path = require('path');
 const helmet = require('helmet');
 const { body, validationResult } = require('express-validator');
 const logger = require('./logger');
-const config = require('./config/config');
+const config = require('./config/config.js');
 
 const app = express();
 const PORT = config.app.port;
