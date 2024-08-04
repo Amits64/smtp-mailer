@@ -1,3 +1,4 @@
+[![ci](https://github.com/Amits64/smtp-mailer/actions/workflows/docker.yml/badge.svg)](https://github.com/Amits64/smtp-mailer/actions/workflows/docker.yml)
 # SMTP Mailer Service
 
 This is a simple SMTP mailer service for sending emails using Node.js and Express.
