@@ -18,7 +18,7 @@ WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 RUN npm install --production
 RUN npm fund
-RUN npm audit fix --force
+RUN npm audit fix
 
 # Copy the rest of the application code
 COPY . .
