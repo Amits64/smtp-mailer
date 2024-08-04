@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send Email</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .container {
+      max-width: 600px;
+      margin-top: 50px;
+    }
+    .form-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .form-header {
+      margin-bottom: 20px;
+    }
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #004085;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="form-container">
+      <h2 class="form-header text-center">Send Email</h2>
+      <form id="emailForm" action="/send" method="post">
+        <div class="mb-3">
+          <label for="to" class="form-label">To:</label>
+          <input type="email" class="form-control" id="to" name="to" required>
+          <div class="invalid-feedback">
+            Please enter a valid email address.
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="subject" class="form-label">Subject:</label>
+          <input type="text" class="form-control" id="subject" name="subject" required>
+          <div class="invalid-feedback">
+            Please enter a subject.
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="text" class="form-label">Text:</label>
+          <textarea class="form-control" id="text" name="text" rows="5" required></textarea>
+          <div class="invalid-feedback">
+            Please enter the email text.
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Send Email <i class="fa fa-paper-plane"></i></button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Custom form validation
+    (function () {
+      'use strict'
+      var forms = document.querySelectorAll('form');
+      Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+    })();
+  </script>
+</body>
+</html>

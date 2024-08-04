@@ -1,83 +1,67 @@
+def COLOR_MAP = [
+    'SUCCESS': 'good',
+    'FAILURE': 'danger'
+]
+
 pipeline {
     agent any
 
     environment {
         registry = 'amits64'
         registryCredential = 'dockerhub'
-        tag = "v${BUILD_NUMBER}"
+        image = 'smtp-mailer'
+        tag = "${env.TIMESTAMP}"  // Use TIMESTAMP environment variable
     }
 
     stages {
         stage('Git Checkout') {
             steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: 'main']],
-                    userRemoteConfigs: [[url: 'https://github.com/Amits64/smtp-mailer.git']]
-                ])
+                checkout scm  // Checkout the code from SCM (Source Control Management)
             }
         }
-
-        stage('Static Code Analysis') {
+        
+        stage('Prepare Helm Chart') {
             steps {
                 script {
-                    // Execute SonarQube scanner
-                    def sonarScannerImage = 'sonarsource/sonar-scanner-cli:latest'
-                    docker.image(sonarScannerImage).inside() {
-                        withSonarQubeEnv('SonarQube') {
-                            sh """
-                            sonar-scanner \
-                            -Dsonar.host.url=http://192.168.10.11:9000/ \
-                            -Dsonar.projectKey=smtp-mailer
-                            """
-                        }
-                    }
+                    def chartDirectory = 'smtp-mailer'  // Path to your Helm chart directory
+
+                    // Log the directory structure to ensure it's correct
+                    sh "ls -R ${chartDirectory}"
+
+                    // Log the contents of the Chart.yaml file
+                    sh "cat ${chartDirectory}/Chart.yaml"
                 }
             }
         }
-
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    // Build the Docker image
-                    docker.build("${registry}/smtp-mailer:${tag}", "-f Dockerfile .")
-                }
-            }
-        }
-
-        stage('Upload Image') {
-            steps {
-                script {
-                    // Push the Docker image to the registry
-                    docker.withRegistry('', registryCredential) {
-                        docker.image("${registry}/smtp-mailer:${tag}").push()
-                    }
-                }
-            }
-        }
-
-        stage('Remove Unused Docker Image') {
-            steps {
-                script {
-                    sh "docker rmi ${registry}/smtp-mailer:${tag}"
-                }
-            }
-        }
-
+        
         stage('Deploying Container to Kubernetes') {
             steps {
-                dir('smtp-mailer') {
-                    script {
-                        // Check if the release "calci" exists
-                        def releaseExists = sh(returnStatus: true, script: 'helm ls | grep -q "smtp-mailer"') == 0
-                        if (releaseExists) {
-                            // Delete the release
-                            sh 'helm delete smtp-mailer'
-                        }
+                script {
+                    def chartDirectory = 'smtp-mailer'  // Path to your Helm chart directory
 
-                        // Install Helm chart
-                        sh "helm install smtp-mailer ./ --set appimage=amits64/smtp-mailer:${tag} --set-file ca.crt=/etc/ca-certificates/update.d/jks-keystore"
+                    // Check if Helm release already exists
+                    def releaseExists = sh(returnStatus: true, script: "helm ls -q | grep -w ${image}") == 0
+                    if (releaseExists) {
+                        // Delete the existing Helm release if it exists
+                        sh "helm delete ${image}"
                     }
+
+                    // Deploy the new Docker image to Kubernetes using Helm
+                    sh "helm install ${image} ${chartDirectory} --set image.repository=${registry}/${image} --set image.tag=${tag} --set-file ca.crt=/etc/ca-certificates/update.d/jks-keystore"
+                }
+            }
+            post {
+                always {
+                    echo 'Slack Notifications.'
+                    slackSend(
+                        channel: '#jenkinscicd',
+                        color: COLOR_MAP.get(currentBuild.currentResult),
+                        message: """
+                        SonarQube analysis for ${env.JOB_NAME} build ${env.BUILD_NUMBER}
+                        Status: *${currentBuild.currentResult}*
+                        More info: ${env.BUILD_URL}
+                        """
+                    )
                 }
             }
         }

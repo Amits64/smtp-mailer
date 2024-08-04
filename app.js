@@ -1,24 +1,27 @@
+require('dotenv').config();
 const express = require('express');
 const nodemailer = require('nodemailer');
 const ejs = require('ejs');
-const fs = require('fs');
 const path = require('path');
-const helmet = require('helmet'); // Include the 'helmet' module
+const helmet = require('helmet');
+const { body, validationResult } = require('express-validator');
+const logger = require('./logger');
+const config = require('./config/config');
+
 const app = express();
-const PORT = 3000;
+const PORT = config.app.port;
 
 app.use(express.json());
-
-// Use the 'helmet' middleware to hide the x-powered-by header
-app.use(helmet.hidePoweredBy());
+app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
+app.use(helmet()); // Use Helmet for security
+app.use(helmet.hidePoweredBy()); // Hide the X-Powered-By header
 
 // Create an SMTP transporter
 const smtpTransport = nodemailer.createTransport({
-  // Use a secure email service and store sensitive information in environment variables
-  service: 'Gmail', // Replace with a secure email service
+  service: config.smtp.service,
   auth: {
-    user: process.env.EMAIL_USER, // Use environment variables
-    pass: process.env.EMAIL_PASSWORD // Use environment variables
+    user: config.smtp.user,
+    pass: config.smtp.pass
   }
 });
 
@@ -26,17 +29,47 @@ const smtpTransport = nodemailer.createTransport({
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Define a route for sending emails
-app.post('/send', async (req, res) => {
-  // ... (unchanged code for sending emails)
-});
-
-// Serve a simple HTML form for sending emails over HTTPS
+// Serve a form page
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'form.html'));
+  res.render('form'); // Renders the EJS form template
 });
 
+// Define a route for sending emails
+app.post('/send', [
+  body('to').isEmail().withMessage('Invalid email address'),
+  body('subject').notEmpty().withMessage('Subject is required'),
+  body('text').notEmpty().withMessage('Text is required')
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { to, subject, text } = req.body;
+  const mailOptions = {
+    from: config.smtp.user,
+    to,
+    subject,
+    text
+  };
+
+  try {
+    await smtpTransport.sendMail(mailOptions);
+    res.status(200).send('Email sent successfully');
+  } catch (error) {
+    logger.error(`Error sending email: ${error.message}`);
+    res.status(500).send('Error sending email');
+  }
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  logger.error(`Unhandled error: ${err.message}`);
+  logger.error(err.stack); // Log stack trace for debugging
+  res.status(500).send('Something went wrong');
+});
+
+// Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  logger.info(`Server is running on http://localhost:${PORT}`);
 });
-

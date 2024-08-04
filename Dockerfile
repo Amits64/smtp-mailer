@@ -2,7 +2,7 @@
 FROM node:18.19.1-bookworm-slim
 
 # Create a non-root user and group for running the application
-RUN groupadd -g 1001 nonroot && useradd -u 1001 -g nonroot -m nonroot
+RUN groupadd -r nonroot && useradd -r -g nonroot nonroot
 
 # Set environment variables for sensitive data to empty values
 ENV DB_HOST=""
@@ -14,13 +14,14 @@ ENV SECRET_API_KEY=""
 # Create a directory for your app and set it as the working directory
 WORKDIR /usr/src/app
 
-# Copy specific files and directories required for the image to run
-COPY package.json .
-COPY package-lock.json .
-COPY app.js .
+# Copy package files and install dependencies
+COPY package.json package-lock.json ./
+RUN npm install --production
+RUN npm fund
+RUN npm audit fix --force
 
-# Install app dependencies as the non-root user
-RUN npm install
+# Copy the rest of the application code
+COPY . .
 
 # Expose the port your app will run on
 EXPOSE 3000
