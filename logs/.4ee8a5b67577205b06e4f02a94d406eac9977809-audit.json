@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/root/smtp-mailer/logs/.4ee8a5b67577205b06e4f02a94d406eac9977809-audit.json",
+    "files": [
+        {
+            "date": 1723064780845,
+            "name": "/root/smtp-mailer/logs/2024-08-07-app.log",
+            "hash": "e37637e26a4922d53a3d0fd9128f7ab386cf57b8b8004f1bf632809f2a1a1a0f"
+        }
+    ],
+    "hashType": "sha256"
+}
