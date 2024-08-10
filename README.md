@@ -1,5 +1,12 @@
 [![ci](https://github.com/Amits64/smtp-mailer/actions/workflows/docker.yml/badge.svg)](https://github.com/Amits64/smtp-mailer/actions/workflows/docker.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Amits64_smtp-mailer&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Amits64_smtp-mailer)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Amits64_smtp-mailer&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Amits64_smtp-mailer)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Amits64_smtp-mailer&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Amits64_smtp-mailer)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Amits64_smtp-mailer&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Amits64_smtp-mailer)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Amits64_smtp-mailer&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=Amits64_smtp-mailer)
+
 # SMTP Mailer Service
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/summary/new_code?id=Amits64_smtp-mailer)
 
 This is a simple SMTP mailer service for sending emails using Node.js and Express.
 
