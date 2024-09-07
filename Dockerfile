@@ -10,6 +10,9 @@ ENV DB_PORT=""
 ENV DB_USER=""
 ENV DB_PASSWORD=""
 ENV SECRET_API_KEY=""
+ENV NEW_RELIC_NO_CONFIG_FILE=true
+ENV NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
+ENV NEW_RELIC_LOG=stdout
 
 # Create a directory for your app and set it as the working directory
 WORKDIR /usr/src/app
