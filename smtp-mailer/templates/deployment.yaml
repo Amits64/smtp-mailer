@@ -30,3 +30,7 @@ spec:
               value: "Password!"
             - name: SECRET_API_KEY
               value: ad8fb3c8b78bee02ea05c05f64936cc9
+            - name: NEW_RELIC_LICENSE_KEY
+              value: "eu01xxafcb62609f9236dd017dddbe17FFFFNRAL"
+            - name: NEW_RELIC_APP_NAME
+              value: "smtp-mailer"
