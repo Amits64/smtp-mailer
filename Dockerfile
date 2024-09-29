@@ -1,5 +1,5 @@
 # Stage 1: Build Stage
-FROM node:18.19.1-bookworm-slim AS build
+FROM node:18.20.2-bookworm-slim AS build
 
 # Set environment variables for sensitive data to empty values
 ENV DB_HOST=""
@@ -25,7 +25,7 @@ COPY . .
 RUN npm fund
 
 # Stage 2: Production Stage
-FROM node:18.19.1-bookworm-slim
+FROM node:18.20.2-bookworm-slim
 
 # Create a non-root user and group for running the application
 RUN groupadd -r nonroot && useradd -r -g nonroot nonroot
